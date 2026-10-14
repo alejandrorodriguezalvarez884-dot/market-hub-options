@@ -55,19 +55,26 @@ El borrador de la estrategia que se está construyendo vive en `localStorage` de
 
 ## Dónde estamos
 
-**2026-10-14: hecho y probado en local, sin desplegar.** 49 tests en verde (`make test`),
-`astro check` sin errores. Probado en el navegador con datos reales (AAPL y SPY, antes de la
-apertura): cadena, ficha, gráficos, estrategia desde la cadena y desde plantilla (iron condor),
-guardar, y la vista de móvil sin scroll horizontal.
+**Desplegado el 2026-10-14 como `options-lab-00001-2qh`** (Cloud Run, `europe-west1`, proyecto
+`arctic-robot-474306-g3`, detrás del login del hub), en **https://options.themarkethub.app**.
+`make deploy` desde el commit `c61120c` con el árbol limpio y un `.env` con solo `HUB_URL`. Mapeo
+de dominio con `gcloud beta run domain-mappings create` y CNAME `options` → `ghs.googlehosted.com`
+(solo DNS) en Cloudflare; el certificado tardó unos 15 minutos. Sin sesión, `/api/health` da 200,
+las páginas redirigen al login del hub y el API responde 401.
+
+El portal y las cuatro herramientas se desplegaron después, con el enlace `Options` en My Hub (el
+portal, además, lista y borra las estrategias con la cuenta). Se desplegaron con
+`gcloud run deploy <servicio> --source <export limpio del commit>`, sin flags de configuración, para
+conservar la de cada servicio: los `.env` de esta máquina no coinciden con producción.
+
+Antes: 49 tests en verde, `astro check` sin errores, probado en local con datos reales (AAPL y SPY,
+antes de la apertura): cadena, ficha, gráficos, estrategia desde la cadena y desde plantilla (iron
+condor), guardar, y móvil sin scroll horizontal. Añadido al health check del mantenimiento diario
+(`scripts/healthcheck.py` de la raíz).
 
 Pendiente:
-1. **Desplegar** (`make deploy`, que crea el servicio `options-lab` en el proyecto del portal y le
-   da `roles/datastore.user`), mapear `options.themarkethub.app`
-   (`gcloud beta run domain-mappings create --service options-lab --domain options.themarkethub.app --region europe-west1`)
-   y el CNAME `options` → `ghs.googlehosted.com` en Cloudflare (sin proxy).
-2. Cuando responda por HTTPS, desplegar el portal y las otras herramientas con el enlace
-   `Options` de My Hub (ya commiteado en cada repo).
-3. App de móvil (`market-hub-mobile`): añadir la herramienta a `src/lib/tools.ts` y a
-   `tool_pages` del portal, si el usuario lo quiere.
-4. Mirarlo con el mercado abierto (bid/ask y OI reales) y con un índice de vencimientos diarios
-   (SPY, QQQ) por tiempos de la estructura temporal.
+1. Mirarlo con el mercado abierto y con sesión (bid/ask y OI reales; guardar una estrategia en
+   Firestore de verdad), y con un índice de vencimientos diarios (SPY, QQQ) por tiempos de la
+   estructura temporal.
+2. App de móvil (`market-hub-mobile`): añadir `options_lab` a `src/lib/tools.ts` (el portal ya lo
+   nombra en `/api/config` y lo admite en `tool_pages`), si el usuario lo quiere.
