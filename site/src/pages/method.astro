@@ -1,0 +1,79 @@
+---
+import Page from "../components/Page.astro";
+---
+
+<Page title="Method" description="Where Options Lab's figures come from: the prices it reads, the formula it uses and how each figure is computed.">
+	<div class="max-w-3xl">
+		<h1 class="text-[2rem] font-medium leading-tight tracking-tight text-ink-strong">Sources and method</h1>
+		<p class="mt-4 text-ink">
+			Every figure is computed by code from the prices of the options, the same way for every ticker. No one picks a
+			contract or a strategy, and no AI writes anything on these pages.
+		</p>
+
+		<h2 class="sec sec-title mt-12">Sources</h2>
+		<ul class="mt-3 list-disc space-y-2 pl-5 text-ink">
+			<li><strong class="font-medium text-ink-strong">Yahoo Finance</strong>: each option's bid, ask, last trade, volume and open interest; the underlying's price, dividend and next results date; a year of daily closes; and the yield of the 13-week Treasury bill. Option prices are delayed about 15 minutes, and outside market hours some quotes read zero.</li>
+		</ul>
+
+		<h2 class="sec sec-title mt-12">The price of a contract</h2>
+		<p class="mt-3 text-ink">
+			A contract is marked at the middle of its bid and ask. When it has no quote (outside market hours, often) it is marked
+			at its last trade, which may be old. Everything else about the contract is read from that mark.
+		</p>
+
+		<h2 class="sec sec-title mt-12">Implied volatility and greeks</h2>
+		<p class="mt-3 text-ink">
+			The formula is Black-Scholes-Merton: the underlying's price, the strike, the time to expiration (to 4 p.m. New York
+			time on the day), the Treasury bill's yield as the risk-free rate and the trailing dividend as a continuous yield.
+			The implied volatility is the one at which the formula gives the mark. US equity options are American, and can be
+			exercised before expiration; the formula is the European one, the usual way a chain is read. The greeks come from
+			the same formula at that volatility: delta and gamma per $1 of the underlying, theta per calendar day, vega per
+			volatility point and rho per percentage point of the rate. A contract whose mark is under what the formula gives at
+			no volatility has no implied volatility.
+		</p>
+
+		<h2 class="sec sec-title mt-12">Odds</h2>
+		<p class="mt-3 text-ink">
+			The odds are the ones the option prices imply, in the formula's risk-neutral world: the underlying grows at the
+			rate less the dividend and ends spread as a lognormal at the implied volatility. They are not a forecast of what
+			will happen. "Ends in the money" is the chance the underlying ends past the strike at expiration. "Touches the
+			strike" is twice that, capped at 100%: the usual approximation of the chance it gets there at any point before.
+		</p>
+
+		<h2 class="sec sec-title mt-12">An expiration as a whole</h2>
+		<ul class="mt-3 list-disc space-y-2 pl-5 text-ink">
+			<li><strong class="font-medium text-ink-strong">At-the-money IV</strong>: the smile read from the out-of-the-money side (puts under the price, calls over it), interpolated at the price.</li>
+			<li><strong class="font-medium text-ink-strong">Expected move</strong>: the price of the straddle at the strike nearest the price, a call and a put together. It is what the market charges for the move, not a prediction of it.</li>
+			<li><strong class="font-medium text-ink-strong">One-sigma range</strong>: the prices between which the underlying ends with a 68% chance, by the at-the-money volatility.</li>
+			<li><strong class="font-medium text-ink-strong">25-delta skew</strong>: the implied volatility of the put whose delta is −0.25 less that of the call whose delta is 0.25, in volatility points, each interpolated by delta.</li>
+			<li><strong class="font-medium text-ink-strong">Max pain</strong>: the strike at which the options open today would pay their holders least if the underlying ended there.</li>
+			<li><strong class="font-medium text-ink-strong">IV 30 days</strong>: at-the-money volatility interpolated at 30 days, in total variance, between the expirations around it.</li>
+			<li><strong class="font-medium text-ink-strong">Realised volatility</strong>: the annualised standard deviation of the last 20, 60 and 250 daily log returns of the underlying.</li>
+		</ul>
+
+		<h2 class="sec sec-title mt-12">Strategies</h2>
+		<p class="mt-3 text-ink">
+			A strategy is up to eight legs: calls, puts and shares, long or short. A contract is 100 shares. A leg without a
+			price opens at today's mark; one with a price opens there. The profit and loss is drawn at the first expiration of
+			the strategy, today, and on a date between the two. Before an expiration, each option is valued with the formula at
+			its own implied volatility (or the at-the-money one, when it has none), moved by the volatility shift chosen.
+		</p>
+		<p class="mt-3 text-ink">
+			Breakevens, the most and the least are read at the first expiration over prices from nearly zero to three times the
+			highest strike. When the position is long calls or shares that nothing caps, its profit has no limit; when it is
+			short them uncovered, its loss has none. With legs that expire later, the most and the least are read from those
+			prices and are an approximation.
+		</p>
+		<p class="mt-3 text-ink">
+			The chance of profit is the chance, by the at-the-money volatility of the first expiration, that the underlying
+			ends where the strategy shows a profit at that expiration: the odds as described above, summed between breakevens.
+			Margin, commissions, early assignment and taxes are not counted.
+		</p>
+
+		<h2 class="sec sec-title mt-12">What is kept</h2>
+		<p class="mt-3 text-ink">
+			Only the strategies a user saves: their name, ticker, legs and dates, in Market Hub's database under that user's
+			account. They are deleted with the account.
+		</p>
+	</div>
+</Page>

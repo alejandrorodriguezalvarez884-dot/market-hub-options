@@ -1,0 +1,39 @@
+---
+// The builder: legs on one underlying, read as a whole, and the strategies the user keeps.
+import Page from "../components/Page.astro";
+import { link } from "../lib/site";
+---
+
+<Page title="Strategy" description="Build an option strategy from calls, puts and shares and read it as a whole: what it pays, where it breaks even, its most and least, its greeks and the chance of a profit.">
+	<h1 class="text-[2rem] font-medium leading-tight tracking-tight text-ink-strong">Strategy</h1>
+	<p class="mt-2 max-w-2xl text-ink">
+		Calls, puts and shares on one underlying, bought or sold, read as one position. Add contracts from the
+		<a href={link("/")} class="link">chain</a>, start from a shape, or build it leg by leg.
+	</p>
+	<form id="find" class="relative mt-6 w-full max-w-md" role="search">
+		<label class="sr-only" for="find-input">Ticker or company name</label>
+		<div class="flex items-center gap-2 rounded-[3px] border border-line-strong p-1 pl-3 transition focus-within:border-ink-strong">
+			<svg class="h-4 w-4 flex-none text-muted" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+				<circle cx="9" cy="9" r="6"></circle>
+				<path d="m14 14 4 4" stroke-linecap="round"></path>
+			</svg>
+			<input id="find-input" type="search" autocomplete="off" spellcheck="false" placeholder="Ticker or company: AAPL, SPY, Tesla…"
+				class="min-w-0 flex-1 bg-transparent py-1 text-sm text-ink-strong placeholder:text-faint focus:outline-none [&::-webkit-search-cancel-button]:hidden" />
+			<button type="submit" class="btn btn-primary flex-none px-3 py-1.5">Open</button>
+		</div>
+		<ul class="search-list" role="listbox" hidden></ul>
+	</form>
+
+	<p id="empty" class="mt-10 text-[14px] text-muted" hidden>Open a ticker to build a strategy on it.</p>
+	<div id="head" class="mt-10"></div>
+	<div id="start" class="mt-8"></div>
+	<div id="legs" class="mt-10"></div>
+	<div id="result" class="mt-10 transition-opacity"></div>
+	<div id="save" class="mt-10"></div>
+	<div id="saved" class="mt-12"></div>
+</Page>
+
+<script>
+	import { start } from "../lib/builder";
+	start();
+</script>

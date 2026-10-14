@@ -1,0 +1,29 @@
+[project]
+name = "optionslab"
+version = "0.1.0"
+description = "Option chains read in detail, and option strategies built and kept, for Market Hub."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi>=0.142.2",
+    "google-cloud-firestore>=2.34.0",
+    "httpx>=0.28.1",
+    "itsdangerous>=2.2.0",
+    "python-dotenv>=1.2.4",
+    "tzdata>=2025.2",
+    "uvicorn>=0.54.0",
+    "yfinance>=1.7.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
+
+[build-system]
+requires = ["uv_build>=0.8.17,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
