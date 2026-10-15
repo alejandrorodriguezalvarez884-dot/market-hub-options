@@ -1,6 +1,5 @@
 // Site-wide constants and links.
 export const SITE_NAME = "Options Lab";
-export const REPO_URL = "https://github.com/alejandrorodriguezalvarez884-dot/market-hub-options";
 export const AUTHOR_URL = "https://alejandrorodriguez.dev/";
 
 // The tool is a section of Market Hub: an underlying here links to the same company in the

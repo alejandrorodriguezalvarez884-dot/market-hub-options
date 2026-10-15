@@ -55,6 +55,10 @@ El borrador de la estrategia que se está construyendo vive en `localStorage` de
 
 ## Dónde estamos
 
+> 2026-10-15: **Sin enlace al código fuente.** El pie de página ya no lleva "Source" (el enlace al
+> repo de GitHub) y `REPO_URL` ya no existe en `site/src/lib/`: la web no enlaza ni menciona el
+> código, por decisión del usuario. **Sin desplegar**: llega a la web con el próximo `make deploy`.
+
 **Desplegado el 2026-10-14 como `options-lab-00001-2qh`** (Cloud Run, `europe-west1`, proyecto
 `arctic-robot-474306-g3`, detrás del login del hub), en **https://options.themarkethub.app**.
 `make deploy` desde el commit `c61120c` con el árbol limpio y un `.env` con solo `HUB_URL`. Mapeo
